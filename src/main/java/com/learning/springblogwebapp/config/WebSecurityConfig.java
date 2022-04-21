@@ -13,7 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -23,13 +25,19 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private DataSource dataSource;
-    private UserService userService;
+    private final DataSource dataSource;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(DataSource dataSource, UserService userService) {
+    public WebSecurityConfig(DataSource dataSource,
+                             UserService userService,
+                             PasswordEncoder passwordEncoder) {
         this.dataSource = dataSource;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -43,6 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                     .permitAll()
                 .and()
+                    .rememberMe()
+                .and()
                     .logout()
                     .permitAll();
 
@@ -51,6 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+                .passwordEncoder(passwordEncoder);
     }
 }

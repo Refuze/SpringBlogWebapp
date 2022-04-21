@@ -8,7 +8,7 @@
 
 <form th:action="@{/user}" th:method="post">
     <input type="text" th:value="${user.username}" name="username">
-    <input type="text" th:value="${user.password}" name="password">
+    <input type="password" placeholder="New password" name="password">
     <div th:each="role : ${roles}">
         <label><input type="checkbox" th:name="${role}"
                       th:checked="${#lists.contains(user.roles, role)}" th:text="${role}"></label>

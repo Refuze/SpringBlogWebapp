@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="macros::head"/>
+<body>
+<nav th:replace="macros::navbar"/>
+<div class="container mt-5">
+    <form th:action="@{/login}" method="post">
+        <div th:if="${success} != null" th:text="${success}" class="alert alert-success" role="alert"/>
+        <div th:if="${invalid} != null" th:text="${invalid}" class="alert alert-danger" role="alert"/>
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">Invalid username or/and password.</div>
+        <div th:if="${param.logout}" class="alert alert-danger" role="alert">You have been logged out.</div>
+
+        <div th:if="${usernameError} == null" class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                <input type="text" placeholder="Username" name="username"
+                       class="form-control">
+            </div>
+        </div>
+
+        <div th:if="${usernameError} != null" class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                <input type="text" placeholder="Username" name="username"
+                       class="form-control is-invalid">
+                <div  class="invalid-feedback" th:text="${usernameError}"></div>
+            </div>
+        </div>
+
+        <div th:if="${usernameExist} != null" style="color:red" th:text="${usernameExist}"/>
+
+        <div th:if="${passwordError} == null" class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                <input  placeholder="Password" type="password" name="password"
+                        class="form-control">
+            </div>
+        </div>
+
+        <div th:if="${passwordError} != null" class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                <input type="password" placeholder="Password" name="password"
+                       class="form-control is-invalid">
+                <div  class="invalid-feedback" th:text="${passwordError}"></div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary my-3">Sign In</button>
+
+        <br/>
+        <a th:href="@{/registration}" >Go to registration page</a>
+    </form>
+</div>
+
+
+<script th:replace="macros::jsend"/>
+
+</body>
+</html>

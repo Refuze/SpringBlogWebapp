@@ -20,7 +20,6 @@
     <tr>
         <td th:text="${user.username}"></td>
         <td th:text="${#strings.setJoin(user.roles, ', ')}"></td>
-        <td th:text="${user.activationCode}"></td>
         <td><a th:href="'/user/' + ${user.id} ">Edit</a></td>
 
     </tr>

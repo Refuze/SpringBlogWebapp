@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="macros::head"/>
+<body>
+<nav th:replace="macros::navbar"/>
+
+<div class="container mt-5">
+
+        <form th:action="@{/registration}" method="post">
+            <div th:if="${usernameError} == null" class="row g-3 align-items-center mb-3">
+                <div class="col-auto">
+                    <input type="text" placeholder="Username" name="username"
+                           class="form-control" aria-describedby="usernameHelpInline">
+                </div>
+                <div class="col-auto">
+                <span id="usernameHelpInline" class="form-text">
+                  Must be 4-12 characters long.
+                </span>
+                </div>
+            </div>
+
+            <div th:if="${usernameError} != null" class="row g-3 align-items-center mb-3">
+                <div class="col-auto">
+                    <input type="text" placeholder="Username" name="username"
+                           class="form-control is-invalid">
+                    <div  class="invalid-feedback" th:text="${usernameError}"></div>
+                </div>
+            </div>
+
+            <div th:if="${usernameExist} != null" style="color:red" th:text="${usernameExist}"/>
+
+            <div th:if="${passwordError} == null" class="row g-3 align-items-center mb-3">
+                <div class="col-auto">
+                    <input  placeholder="Password" type="password" name="password"
+                            class="form-control" aria-describedby="passwordHelpInline">
+                </div>
+                <div class="col-auto">
+                <span id="passwordHelpInline" class="form-text ">
+                  Must be 8-20 characters long.
+                </span>
+                </div>
+            </div>
+
+            <div th:if="${passwordError} != null" class="row g-3 align-items-center mb-3">
+                <div class="col-auto">
+                    <input type="password" placeholder="Password" name="password"
+                           class="form-control is-invalid">
+                    <div  class="invalid-feedback" th:text="${passwordError}"></div>
+                </div>
+            </div>
+
+            <div th:if="${passwordConfirmationError} == null" class="row g-3 align-items-center mb-3">
+                <div class="col-auto">
+                    <input placeholder="Repeat password" type="password" name="passwordConfirmation"
+                          class="form-control">
+                </div>
+            </div>
+
+            <div th:if="${passwordConfirmationError} != null" class="row g-3 align-items-center mb-3">
+                <div class="col-auto">
+                    <input placeholder="Repeat password" type="password" name="passwordConfirmation"
+                           class="form-control is-invalid">
+                    <div  class="invalid-feedback" th:text="${passwordConfirmationError}"></div>
+                </div>
+            </div>
+
+            <div th:if="${passwordDifferent} != null" style="color:red" th:text="${passwordDifferent}"/>
+
+            <div th:if="${emailError} == null" class="row g-3 align-items-center mb-3">
+
+                <div class="col-auto">
+                    <input placeholder="Email" type="email" name="email"
+                           class="form-control" aria-describedby="emailHelpInline">
+                </div>
+                <div class="col-auto">
+                <span id="emailHelpInline" class="form-text ">
+                  Must be a valid.
+                </span>
+                </div>
+            </div>
+
+            <div th:if="${emailError} != null" class="row g-3 align-items-center mb-3">
+                <div class="col-auto">
+                    <input type="email" placeholder="Email" name="email"
+                           class="form-control is-invalid">
+                    <div  class="invalid-feedback" th:text="${emailError}"></div>
+                </div>
+            </div>
+
+            <div class="g-recaptcha" data-sitekey="6LdjA40fAAAAAKZNQuAeSQhKx-aYThY5q37_6Wq3"></div>
+
+            <div th:if="${captchaError} != null" class="alert alert-danger" role="alert" th:text="${captchaError}"/>
+
+            <button type="submit" class="btn btn-primary mt-3">Sign Up</button>
+
+        </form>
+    </div>
+
+
+
+</div>
+
+<script th:replace="macros::jsend"/>
+
+</body>
+</html>

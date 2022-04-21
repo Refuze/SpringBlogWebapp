@@ -16,18 +16,28 @@
     </form>
 
 
-    <a class="btn btn-primary mb-4" data-bs-toggle="collapse" href="#add" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <a class="btn btn-primary mb-4" data-bs-toggle="collapse" href="#add" role="button" aria-expanded="false" aria-controls="collapseAdd">
         Add new message
     </a>
     <div>
-        <form th:method="post" enctype="multipart/form-data" class="collapse" id="add" >
+        <form th:method="post" enctype="multipart/form-data" th:class="collapse" id="add" >
             <div class="row row-cols-lg-auto g-3 align-items-center">
-                <div class="col-12">
-                    <input class="form-control" type="text" name="tag" placeholder="Enter the title"/>
+                <div th:if="${tagError} == null" class="col-12">
+                    <input  type="text" name="tag" placeholder="Enter the title" class="form-control"/>
                 </div>
 
-                <div class="col-12">
-                    <input class="form-control" type="text" name="text" placeholder="Enter the text"/>
+                <div th:if="${tagError} != null" class="col-12">
+                    <input type="text" name="tag" placeholder="Enter the title"class="form-control is-invalid"/>
+                    <div  class="invalid-feedback" th:text="${tagError}"/>
+                </div>
+
+                <div th:if="${textError} == null" class="col-12">
+                    <input type="text" name="text" placeholder="Enter the text" class="form-control"/>
+                </div>
+
+                <div th:if="${textError} != null" class="col-12">
+                    <input type="text" name="text" placeholder="Enter the text" class="form-control is-invalid"/>
+                    <div  class="invalid-feedback" th:text="${textError}"></div>
                 </div>
 
                 <div class="col-12">
@@ -38,25 +48,6 @@
         </form>
     </div>
 
-    <!--<div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card my-3" th:each="message : ${messages}">
-
-                <div th:if="${message.filename} != null">
-                    <img class="card-img-top" th:src="'/img/' + ${message.filename}">
-                </div>
-
-                <div class="m-2">
-                    <span th:text="${message.getText}"/>
-                    <i th:text="${message.getTag}"/>
-                </div>
-
-                <div class="card-footer text-muted" th:text="${message.getAuthorName()}"/>
-            </div>
-        </div>
-    </div>
--->
-
     <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
         <div th:each="message : ${messages}">
             <div class="col">
@@ -66,7 +57,11 @@
                         <h5 class="card-title" th:text="${message.getTag}"></h5>
                         <p class="card-text" th:text="${message.getText}"></p>
                     </div>
-                    <div class="card-footer text-muted" th:text="${message.getAuthorName()}"/>
+                    <div class="card-footer text-muted">
+                        <a th:text="${message.getAuthorName()}" th:href="'/user-messages/' + ${message.author.username}"/>
+                        <a class="btn btn-primary" th:if="${message.getAuthorName()} == ${#httpServletRequest.remoteUser}"
+                           th:href="'/user-messages/' + ${message.author.username} + '?message=' + ${message.id}">Edit</a>
+                    </div>
                 </div>
             </div>
         </div>

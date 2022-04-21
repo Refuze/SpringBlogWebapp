@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="macros::head">
+<body>
+
+<nav th:replace="macros::navbar"/>
+<div class="container mt-5">
+
+
+    <div th:if="${message} != null" style="color:red" th:text="${message}"/>
+
+    <h5 th:text="${username}"></h5>
+
+    <form method="post">
+          <div class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                <label for="password" class="col-form-label">Password</label>
+            </div>
+            <div class="col-auto">
+                <input placeholder="New password" type="password" id="password" name="password" class="form-control" aria-describedby="passwordHelpInline">
+            </div>
+            <div class="col-auto">
+                <span id="passwordHelpInline" class="form-text ">
+                  Must be 8-20 characters long.
+                </span>
+            </div>
+        </div>
+
+        <div class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                <label for="email" class="col-form-label">Email</label>
+            </div>
+            <div class="col-auto">
+                <input th:value="${email}" type="email" id="email" name="email" class="form-control" aria-describedby="emailHelpInline">
+            </div>
+            <div class="col-auto">
+                <span id="emailHelpInline" class="form-text ">
+                  Must be a valid.
+                </span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">Save</button>
+
+    </form>
+
+</div>
+
+<script th:replace="macros::jsend"/>
+
+
+</body>
+</html>

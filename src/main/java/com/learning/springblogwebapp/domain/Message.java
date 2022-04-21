@@ -1,16 +1,24 @@
 package com.learning.springblogwebapp.domain;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+
 
 @Entity
 public class Message {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
+    @NotBlank(message = "You cant send a message without text")
+    @Length(max = 50, message = "Text is too long")
     private String text;
+
+    @NotBlank(message = "You cant send a message without title")
+    @Length(max = 20, message = "Title is too long")
     private String tag;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -32,11 +40,11 @@ public class Message {
         return author != null ? author.getUsername() : "<none>";
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
