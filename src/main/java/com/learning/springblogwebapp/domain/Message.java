@@ -3,7 +3,6 @@ package com.learning.springblogwebapp.domain;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 
 
@@ -14,7 +13,7 @@ public class Message {
     private Long id;
 
     @NotBlank(message = "You cant send a message without text")
-    @Length(max = 50, message = "Text is too long")
+    @Length(max = 150, message = "Text is too long")
     private String text;
 
     @NotBlank(message = "You cant send a message without title")
@@ -24,8 +23,6 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
-
-    private String filename;
 
     public Message() {
     }
@@ -70,13 +67,5 @@ public class Message {
 
     public void setAuthor(User author) {
         this.author = author;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
     }
 }

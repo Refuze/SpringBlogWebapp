@@ -5,7 +5,44 @@
 <nav th:replace="macros::navbar"/>
 
 <div class="container mt-5">
-    <div th:if="${isCurrentUser}">
+    <h3 th:text="${userPage.username}"></h3>
+
+    <div th:if="${!isCurrentUser}">
+        <a class="btn btn-primary my-3" th:if="${!isSubscriber}" th:href="'/user/subscribe/' + ${userPage.username}">Subscribe</a>
+        <a class="btn btn-secondary my-3" th:if="${isSubscriber}" th:href="'/user/unsubscribe/' + ${userPage.username}">Unsubscribe</a>
+    </div>
+
+
+
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Subscriptions</h5>
+                        <h5>
+                            <a class="card-text" th:text="${subscriptionsCount}" th:href="'/user/subscriptions/' +
+                            ${userPage.username} + '/list'"/>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Subscribers</h5>
+                        <h5>
+                            <a class="card-text" th:text="${subscribersCount}"  th:href="'/user/subscribers/' +
+                            ${userPage.username} + '/list'"/>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5" th:if="${isCurrentUser}">
         <div th:if="${message} != null">
             <form th:method="post" enctype="multipart/form-data">
                 <div class="row row-cols-lg-auto g-3 align-items-center">
@@ -15,10 +52,6 @@
 
                     <div class="col-12">
                         <input th:value="${message.text}" type="text" name="text" placeholder="Enter the text" class="form-control"/>
-                    </div>
-
-                    <div class="col-12">
-                        <input th:value="${message.filename}" class="form-control" type="file" name="file">
                     </div>
                 </div>
                 <input type="hidden" th:value="${message.id}" name="id"/>
@@ -31,13 +64,12 @@
         <div th:each="message : ${messages}">
             <div class="col">
                 <div class="card">
-                    <img th:if="${message.filename} != null" th:src="'/img/' + ${message.filename}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${message.getTag}"></h5>
                         <p class="card-text" th:text="${message.getText}"></p>
                     </div>
                     <div class="card-footer text-muted" th:text="${message.getAuthorName()}"/>
-                    <a class="btn btn-primary" th:if="${message.getAuthorName()} == ${#httpServletRequest.remoteUser}"
+                    <a class="btn btn-secondary" th:if="${message.getAuthorName()} == ${#httpServletRequest.remoteUser}"
                        th:href="'/user-messages/' + ${message.author.username} + '?message=' + ${message.id}">Edit</a>
                 </div>
             </div>

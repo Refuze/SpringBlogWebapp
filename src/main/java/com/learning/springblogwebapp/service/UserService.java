@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
     private void sendActivationCode(User user) {
         if(StringUtils.hasText(user.getEmail())){
             String message = String.format("Hello, %s!\n" +
-                    "Welcome to our Blog.\n" +
+                    "Welcome to my Blog.\n" +
                     "To activate your account please click on this link:\n" +
                     "http://localhost:8080/activate/%s",
                     user.getUsername(), user.getActivationCode());
@@ -69,6 +69,10 @@ public class UserService implements UserDetailsService {
 
     public List<User> findAll() {
         return userRepo.findAll();
+    }
+
+    public User findByName(String username) {
+        return userRepo.findByUsername(username);
     }
 
     public void saveUser(User user, String username, String password, Map<String, String> form) {
@@ -109,5 +113,15 @@ public class UserService implements UserDetailsService {
         if (isEmailChanged){
             sendActivationCode(user);
         }
+    }
+
+    public void subscribe(User user, User requestUser) {
+        requestUser.getSubscribers().add(user);
+        userRepo.save(requestUser);
+    }
+
+    public void unsubscribe(User user, User requestUser) {
+        requestUser.getSubscribers().remove(user);
+        userRepo.save(requestUser);
     }
 }

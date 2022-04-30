@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="macros::head"/>
+<body>
+<div class="container mt-5">
+    <h5 th:text="${userPage.username} + ' ' + ${type}"/>
+    <ul class="list-group">
+        <div th:each="user : ${users}">
+            <li class="list-group-item">
+                <a th:text="${user.getUsername()}" th:href="'/user-messages/' + ${user.getUsername()}"/>
+            </li>
+        </div>
+    </ul>
+</div>
+</body>
+</html>

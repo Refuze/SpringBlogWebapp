@@ -5,6 +5,7 @@ import com.learning.springblogwebapp.domain.User;
 import com.learning.springblogwebapp.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +62,40 @@ public class UserController {
                                 @RequestParam String email){
         userService.updateProfile(user, password, email);
         return "redirect:/user/profile";
+    }
+
+    @GetMapping("/{type}/{username}")
+    public String subscribe(@AuthenticationPrincipal User user,
+                            @PathVariable String username,
+                            @PathVariable String type){
+        User requestUser = userService.findByName(username);
+        if (type.equals("subscribe")){
+            userService.subscribe(user, requestUser);
+        } else if (type.equals("unsubscribe")){
+            userService.unsubscribe(user, requestUser);
+        } else {
+            return "redirect:/";
+        }
+        return "redirect:/user-messages/" + username;
+    }
+
+    @GetMapping("{type}/{username}/list")
+    public String subscriptionList(@PathVariable String type,
+                                   @PathVariable String username,
+                                   Model model){
+        User requestUser = userService.findByName(username);
+
+        model.addAttribute("type", type);
+        model.addAttribute("userPage", requestUser);
+
+        if (type.equals("subscriptions")){
+            model.addAttribute("users", requestUser.getSubscriptions());
+        } else if (type.equals("subscribers")) {
+            model.addAttribute("users", requestUser.getSubscribers());
+        } else {
+            return "redirect:/";
+        }
+
+        return "user/subscriptions";
     }
 }

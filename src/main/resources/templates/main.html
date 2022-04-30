@@ -39,10 +39,6 @@
                     <input type="text" name="text" placeholder="Enter the text" class="form-control is-invalid"/>
                     <div  class="invalid-feedback" th:text="${textError}"></div>
                 </div>
-
-                <div class="col-12">
-                    <input class="form-control" type="file" name="file">
-                </div>
             </div>
             <button type="submit" class="btn btn-primary mt-4">Send</button>
         </form>
@@ -52,7 +48,6 @@
         <div th:each="message : ${messages}">
             <div class="col">
                 <div class="card">
-                    <img th:if="${message.filename} != null" th:src="'/img/' + ${message.filename}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${message.getTag}"></h5>
                         <p class="card-text" th:text="${message.getText}"></p>
