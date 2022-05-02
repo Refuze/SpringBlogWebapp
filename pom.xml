@@ -118,6 +118,12 @@
             <version>1.12.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -144,7 +150,6 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>spring-blog-webapp</finalName>
     </build>
-
-
 </project>

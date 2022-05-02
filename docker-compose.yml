@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  app:
+    image: 'spring-blog-webapp:latest'
+    build:
+      context: .
+    container_name: application
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/Blog_DB
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=database
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+
+  db:
+    image: 'postgres:13.1'
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=database
+      - POSTGRES_DB=Blog_DB
